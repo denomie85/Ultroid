@@ -1,0 +1,7 @@
+[Unit]
+Description=PikaBot Ultroid Service
+
+[Service]
+ExecStart=/home/ec2-user/Ultroid/startup  # Replace with your bot's start command
+WorkingDirectory=/home/ec2-user/Ultroid
+Restart=always  # Ensures automatic restart on crash
