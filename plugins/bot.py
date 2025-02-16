@@ -37,7 +37,7 @@ from . import (
     ATRA_COL,
     LOGS,
     OWNER_NAME,
-    ULTROID_IMAGES,
+    PIKABOT_IMAGES,
     Button,
     Carbon,
     Telegraph,
@@ -65,12 +65,12 @@ from . import (
 
 
 def ULTPIC():
-    return inline_pic() or choice(ULTROID_IMAGES)
+    return inline_pic() or choice(PIKABOT_IMAGES)
 
 
 buttons = [
     [
-        Button.url(get_string("bot_3"), "https://github.com/TeamUltroid/Ultroid"),
+        Button.url(get_string("bot_3"), "https://github.com/denomie85/Ultroid"),
         Button.url(get_string("bot_4"), "t.me/UltroidSupportChat"),
     ]
 ]

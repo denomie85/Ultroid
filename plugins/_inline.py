@@ -146,14 +146,14 @@ async def setting(event):
         link_preview=False,
         buttons=[
             [
-                Button.inline("•Pɪɴɢ•", data="pkng"),
-                Button.inline("•Uᴘᴛɪᴍᴇ•", data="upp"),
+                Button.inline("※ Pɪɴɢ ※", data="pkng"),
+                Button.inline("※ Uᴘᴛɪᴍᴇ ※", data="upp"),
             ],
             [
-                Button.inline("•Stats•", data="alive"),
-                Button.inline("•Uᴘᴅᴀᴛᴇ•", data="doupdate"),
+                Button.inline("※ Stats ※", data="alive"),
+                Button.inline("※ Uᴘᴅᴀᴛᴇ ※", data="doupdate"),
             ],
-            [Button.inline("« Bᴀᴄᴋ", data="open")],
+            [Button.inline("🔙 Bᴀᴄᴋ", data="open")],
         ],
     )
 

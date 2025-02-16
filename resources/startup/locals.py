@@ -2,9 +2,9 @@
 # Ultroid - UserBot
 # Copyright (C) 2021-2023 TeamUltroid
 #
-# This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
+# This file is a part of < https://github.com/denomie85/Ultroid/ >
 # Please read the GNU Affero General Public License in
-# <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
+# <https://www.github.com/denomie85/Ultroid/blob/main/LICENSE/>.
 
 # Standalone file for facilitating local deploys.
 
@@ -29,7 +29,7 @@ def start():
     print("Welcome to Ultroid, lets start setting up!\n\n")
     print("Cloning the repository...\n\n")
     os.system("rm -rf Ultroid")
-    os.system("git clone https://github.com/TeamUltroid/Ultroid")
+    os.system("git clone https://github.com/denomie85/Ultroid")
     print("\n\nDone")
     os.chdir("Ultroid")
     clear_screen()
@@ -62,7 +62,7 @@ def start():
         all_done += do_input(i)
     clear_screen()
     print(a)
-    print("\n\nHere are the things you've entered.\nKindly check.")
+    print("\n\nCheck what you have entered is right.")
     print(all_done)
     isitdone = input("\n\nIs it all correct? [y/n]")
     if isitdone == "y" or isitdone != "n":

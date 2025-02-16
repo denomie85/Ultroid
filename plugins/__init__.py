@@ -18,7 +18,7 @@ from pyUltroid import *
 from pyUltroid._misc._assistant import asst_cmd, callback, in_pattern
 from pyUltroid._misc._decorators import ultroid_cmd
 from pyUltroid._misc._wrappers import eod, eor
-from pyUltroid.dB import DEVLIST, ULTROID_IMAGES
+from pyUltroid.dB import DEVLIST, PIKABOT_IMAGES
 from pyUltroid.fns.helper import *
 from pyUltroid.fns.misc import *
 from pyUltroid.fns.tools import *
@@ -43,7 +43,7 @@ LOG_CHANNEL = udB.get_key("LOG_CHANNEL")
 def inline_pic():
     INLINE_PIC = udB.get_key("INLINE_PIC")
     if INLINE_PIC is None:
-        INLINE_PIC = choice(ULTROID_IMAGES)
+        INLINE_PIC = choice(PIKABOT_IMAGES)
     elif INLINE_PIC == False:
         INLINE_PIC = None
     return INLINE_PIC
