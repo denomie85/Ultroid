@@ -118,6 +118,8 @@ class Config((object)):
         PM_DATA = os.environ.get("PM_DATA", "ENABLE")
         DEEP_AI = os.environ.get("DEEP_AI", None)
         TAG_LOG = os.environ.get("TAG_LOG", None)
+        GOOGLEAPI = os.environ.get("GOOGLEAPI", None)
+        BARDAPI = os.environ.get("BARDAPI", None)
 
     else:
         DB_URI = None

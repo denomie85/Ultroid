@@ -92,7 +92,7 @@ async def ultroid(event):
         keym.add(event.sender_id)
         kak_uiw = udB.get_key("OFF_START_LOG")
         if not kak_uiw or kak_uiw != True:
-            msg = f"{inline_mention(event.sender)} `[{event.sender_id}]` started your [Assistant bot](@{asst.me.username})."
+            msg = f"{inline_mention(event.sender)} `[{event.sender_id}]` started [PikaBot](@{asst.me.username})."
             buttons = [[Button.inline("Info", "itkkstyo")]]
             if event.sender.username:
                 buttons[0].append(
@@ -113,19 +113,23 @@ async def ultroid(event):
             if udB.get_key("PMBOT"):
                 ok = "You can contact my master using this bot!!\n\nSend your Message, I will Deliver it To Master."
             await event.reply(
-                f"Hey there {mention}, this is Ultroid Assistant of {me}!\n\n{ok}",
+                f"Hey there {mention}, this is PikaBot,an assistant of {me}!\n\n{ok}",
                 file=udB.get_key("STARTMEDIA"),
-                buttons=[Button.inline("Info.", data="ownerinfo")]
-                if Owner_info_msg
-                else None,
+                buttons=(
+                    [Button.inline("Info.", data="ownerinfo")]
+                    if Owner_info_msg
+                    else None
+                ),
             )
         else:
             await event.reply(
                 udB.get_key("STARTMSG").format(me=me, mention=mention),
                 file=udB.get_key("STARTMEDIA"),
-                buttons=[Button.inline("Info.", data="ownerinfo")]
-                if Owner_info_msg
-                else None,
+                buttons=(
+                    [Button.inline("Info.", data="ownerinfo")]
+                    if Owner_info_msg
+                    else None
+                ),
             )
     else:
         name = get_display_name(event.sender)
