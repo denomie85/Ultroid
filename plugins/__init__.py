@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2023 TeamUltroid
+# Copyright (C) 2021-2025 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -26,6 +26,7 @@ from pyUltroid.fns.custom_markdown import *
 from pyUltroid.startup._database import _BaseDatabase as Database
 from pyUltroid.version import __version__, ultroid_version
 from strings import get_help, get_string
+from catbox import CatboxUploader
 
 udB: Database
 
@@ -52,6 +53,9 @@ def inline_pic():
 
 
 Telegraph = telegraph_client()
+cat_uploader = CatboxUploader()
+
+upload_file = cat_uploader.upload_file
 
 List = []
 Dict = {}
@@ -85,6 +89,7 @@ KANGING_STR = [
     "Imprisoning this sticker...",
     "Mr.Steal-Your-Sticker is stealing this sticker... ",
 ]
+
 
 ATRA_COL = [
     "DarkCyan",

@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2023 TeamUltroid
+# Copyright (C) 2021-2025 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -67,10 +67,7 @@ from pyUltroid._misc._assistant import asst_cmd
 from pyUltroid.dB.gban_mute_db import is_gbanned
 from pyUltroid.fns.tools import get_chat_and_msgid
 
-try:
-    from telegraph import upload_file as uf
-except ImportError:
-    uf = None
+from . import upload_file as uf
 
 from telethon.errors.rpcerrorlist import ChatForwardsRestrictedError, UserBotError
 from telethon.errors import MessageTooLongError
@@ -266,18 +263,16 @@ async def _(event):
         return await xx.eor(
             "`Reply to a Message/Document or Give me Some Text !`", time=5
         )
-    done, key = await get_paste(message)
-    if not done:
-        return await xx.eor(key)
-    link = f"https://spaceb.in/{key}"
-    raw = f"https://spaceb.in/api/v1/documents/{key}/raw"
+    done, data = await get_paste(message)
+    if not done and data.get("error"):
+        return await xx.eor(data["error"])
     reply_text = (
-        f"• **Pasted to SpaceBin :** [Space]({link})\n• **Raw Url :** : [Raw]({raw})"
+        f"• **Pasted to SpaceBin :** [Space]({data['link']})\n• **Raw Url :** : [Raw]({data['raw']})"
     )
     try:
         if event.client._bot:
             return await xx.eor(reply_text)
-        ok = await event.client.inline_query(asst.me.username, f"pasta-{key}")
+        ok = await event.client.inline_query(asst.me.username, f"pasta-{data['link']}")
         await ok[0].click(event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True)
         await xx.delete()
     except BaseException as e:
@@ -506,7 +501,7 @@ async def telegraphcmd(event):
             getit = file
         if "document" not in dar:
             try:
-                nn = f"https://graph.org{uf(getit)[0]}"
+                nn = uf(getit)
                 amsg = f"Uploaded to [Telegraph]({nn}) !"
             except Exception as e:
                 amsg = f"Error : {e}"
@@ -736,32 +731,33 @@ async def get_thumbnail(file_path, thumbnail_path):
         )
     except Exception as e:
         print(f"Error extracting thumbnail: {e}")
-        
+
 @ultroid_cmd(pattern="getmsg( ?(.*)|$)")
 async def get_restricted_msg(event):
     match = event.pattern_match.group(1).strip()
     if not match:
         await event.eor("`Please provide a link!`", time=5)
         return
-        
+    
     xx = await event.eor("`Loading...`")
     chat, msg = get_chat_and_msgid(match)
     if not (chat and msg):
         return await event.eor(
-            "Invalid link!\nEg: `https://t.me/TeamUltroid/3 or `https://t.me/c/1313492028/3`"
+            "Invalid link!\nEg: `https://t.me/TeamUltroid/3` or `https://t.me/c/1313492028/3`"
         )
+    
     try:
         message = await event.client.get_messages(chat, ids=msg)
     except BaseException as er:
         return await event.eor(f"**ERROR**\n`{er}`")
-        
+    
     try:
         await event.client.send_message(event.chat_id, message)
         await xx.try_delete()
         return
     except ChatForwardsRestrictedError:
         pass
-        
+    
     if message.media:
         if isinstance(message.media, (MessageMediaPhoto, MessageMediaDocument)):
             media_path, _ = await event.client.fast_downloader(message.document, show_progress=True, event=xx, message=get_string("com_5"))

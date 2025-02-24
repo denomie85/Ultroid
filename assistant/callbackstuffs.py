@@ -1,5 +1,6 @@
+
 # Ultroid - UserBot
-# Copyright (C) 2021-2025 TeamPikaBot
+# Copyright (C) 2021-2025 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -20,8 +21,8 @@ try:
     from pyUltroid.fns.gDrive import GDriveManager
 except ImportError:
     GDriveManager = None
-from telegraph import upload_file as upl
 from telethon import Button, events
+from catbox import CatboxUploader
 from telethon.tl.types import MessageMediaWebPage
 from telethon.utils import get_peer_id
 
@@ -34,8 +35,8 @@ from . import *
 # --------------------------------------------------------------------#
 telegraph = telegraph_client()
 GDrive = GDriveManager() if GDriveManager else None
+uploader = CatboxUploader()
 # --------------------------------------------------------------------#
-
 
 def text_to_url(event):
     """function to get media url (with|without) Webpage"""
@@ -174,16 +175,9 @@ _buttons = {
     "apiset": {
         "text": get_string("ast_1"),
         "buttons": [
-                Button.inline("RMBG API", data="abs_rmbg"),
-                Button.inline("DEEP API", data="abs_dapi"),
-                Button.inline("OCR API", data="abs_oapi"),
-            ],
-            [
-                Button.inline("OᴘᴇɴAI API", data="abs_openapi"),
-                Button.inline("Spare API", data="abs_papi"),
-                Button.inline("Google API", data="abs_gapi"),
-            ],
-            [Button.inline("OpenWeather API", data="abs_openwapi")],
+            [Button.inline("Remove.bg API", data="abs_rmbg")],
+            [Button.inline("DEEP API", data="abs_dapi")],
+            [Button.inline("OCR API", data="abs_oapi")],
             [Button.inline("« Back", data="setter")],
         ],
     },
@@ -205,25 +199,9 @@ _convo = {
     "oapi": {
         "var": "OCR_API",
         "name": "Ocr Api Key",
-        "text": "Get Your OCR api from ocr.space and send that Here.\n\n /cancel to cancel",
+        "text": "Get Your OCR api from ocr.space and send that Here.",
         "back": "cbs_apiset",
     },
-    "openapi": {
-        "var": "OPENAI_API",
-        "name": "OPENAI API Key",
-        "text": "Visit openai.com for an OPENAI Api key!\n\n /cancel to cancel",
-        "back": "cbs_apiset",
-    },
-    "papi": {
-        "var": "SPARE_API",
-        "name": "Placeholder",
-        "text": "Placeholder button for another API in future\n\n /cancel to cancel",
-        "back": "cbs_apiset",
-    },
-    "gapi": {
-        "var": "GOOGLEAPI",
-        "name": "Google Api Key",
-        "text": "Get Your GOOGLE API from https://makersuite.google.com/app/apikey \n\n /cancel to cancel",
     "pmlgg": {
         "var": "PMLOGGROUP",
         "name": "Pm Log Group",
@@ -345,8 +323,8 @@ async def update(eve):
         await eve.edit(get_string("clst_1"))
         call_back()
         await bash("git pull && pip3 install -r requirements.txt")
+        await bash("pip3 install -r requirements.txt --break-system-packages")
         execl(sys.executable, sys.executable, "-m", "pyUltroid")
-
 
 @callback(re.compile("changes(.*)"), owner=True)
 async def changes(okk):
@@ -407,11 +385,14 @@ async def _(e):
     if "|" in ok:
         ok, index = ok.split("|")
     with open(ok, "r") as hmm:
-        _, key = await get_paste(hmm.read())
-    link = f"https://spaceb.in/{key}"
-    raw = f"https://spaceb.in/api/v1/documents/{key}/raw"
-    if not _:
+        _, data = await get_paste(hmm.read())
+    if not data.get("link"):
         return await e.answer(key[:30], alert=True)
+    if not key.startswith("http"):
+        link, raw = data["link"], data["raw"]
+    else:
+        link = key
+        raw = f"{key}/raw"
     if ok.startswith("addons"):
         key = "Addons"
     elif ok.startswith("vcbot"):
@@ -579,9 +560,7 @@ async def emoji(event):
     var = "EMOJI_IN_HELP"
     name = f"Emoji in `{HNDLR}help` menu"
     async with event.client.conversation(pru) as conv:
-        await conv.send_message(
-            "Send emoji u want to set 🙃.\n\nUse /cancel to cancel."
-        )
+        await conv.send_message("Send emoji u want to set 🙃.\n\nUse /cancel to cancel.")
         response = conv.wait_event(events.NewMessage(chats=pru))
         response = await response
         themssg = response.message.message
@@ -855,8 +834,7 @@ async def media(event):
         else:
             media = await event.client.download_media(response, "alvpc")
             try:
-                x = upl(media)
-                url = f"https://graph.org/{x[0]}"
+                url = uploader.upload_file(media)
                 remove(media)
             except BaseException as er:
                 LOGS.exception(er)
@@ -994,8 +972,7 @@ async def media(event):
             url = response.file.id
         else:
             try:
-                x = upl(media)
-                url = f"https://graph.org/{x[0]}"
+                url = uploader.upload_file(media)
                 remove(media)
             except BaseException as er:
                 LOGS.exception(er)
@@ -1264,8 +1241,7 @@ async def media(event):
             url = text_to_url(response)
         else:
             try:
-                x = upl(media)
-                url = f"https://graph.org/{x[0]}"
+                url = uploader.upload_file(media)
                 remove(media)
             except BaseException as er:
                 LOGS.exception(er)

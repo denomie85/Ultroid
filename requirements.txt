@@ -3,6 +3,9 @@ telethon
 https://github.com/New-dev0/Telethon-Patch/archive/main.zip
 python-decouple
 python-dotenv
-pymongo
-pyshorteners
-openai==0.28.0
+telegraph
+enhancer
+requests
+aiohttp
+catbox-uploader
+cloudscraper

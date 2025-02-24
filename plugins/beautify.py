@@ -1,5 +1,5 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2023 TeamUltroid
+# Copyright (C) 2021-2025 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
@@ -12,12 +12,11 @@ __doc__ = get_help("help_beautify")
 
 import os
 import random
-from secrets import token_hex
-from urllib.parse import urlencode
 
 from telethon.utils import get_display_name
-
-from . import Carbon, get_string, inline_mention, ultroid_cmd
+from urllib.parse import urlencode
+from . import Carbon, ultroid_cmd, get_string, inline_mention
+from secrets import token_hex
 
 _colorspath = "resources/colorlist.txt"
 
@@ -115,9 +114,11 @@ async def pass_on(ult):
     try:
         from playwright.async_api import async_playwright
     except ImportError:
-        await ult.eor("`playwright` is not installed!\nPlease install it to use this command..")
+        await ult.eor(
+            "`playwright` is not installed!\nPlease install it to use this command.."
+        )
         return
-        
+
     proc = await ult.eor(get_string("com_1"))
     spli = ult.text.split()
     theme, dark, title, text = None, True, get_display_name(ult.chat), None
@@ -144,10 +145,10 @@ async def pass_on(ult):
         theme = random.choice(RaySoTheme)
     cleaned_text = "\n".join([line.strip() for line in text.splitlines()])
     name = token_hex(8) + ".png"
-    data = {"darkMode": dark, "theme": theme, "title": title}    
+    data = {"darkMode": dark, "theme": theme, "title": title}
     url = f"https://ray.so/#{urlencode(data)}"
     async with async_playwright() as play:
-           try:
+        try:
             browser = await play.chromium.launch()
             page = await browser.new_page()
             await page.goto(url)

@@ -1,11 +1,11 @@
 # Ultroid - UserBot
-# Copyright (C) 2021-2023 TeamUltroid
+# Copyright (C) 2021-2025 TeamUltroid
 #
 # This file is a part of < https://github.com/TeamUltroid/Ultroid/ >
 # PLease read the GNU Affero General Public License in
 # <https://www.github.com/TeamUltroid/Ultroid/blob/main/LICENSE/>.
 """
-✘ Commands Available -
+❍ Commands Available -
 
 • `{i}destroy <reply to animated sticker>`
     To destroy the sticker.
@@ -61,7 +61,7 @@ from . import (
     get_string,
     inline_mention,
     mediainfo,
-    ultroid_cmd
+    ultroid_cmd,
     quotly,
     types,
     udB,
