@@ -342,7 +342,7 @@ class Quotly:
                     pass
         if sender:
             name = get_display_name(sender)
-                        if hasattr(sender, "photo"):
+            if hasattr(sender, "photo"):
                 file_ = await event.client.download_profile_photo(sender)
                 uri = await telegraph(file_)
             if hasattr(sender, "last_name"):
